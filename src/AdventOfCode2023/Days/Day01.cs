@@ -1,29 +1,57 @@
-namespace AdventOfCode2023.Days;
+﻿namespace AdventOfCode2023.Days;
 
 public class Day01 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        var packing = GetPackList(Input.Value);
-        var calories = packing.Select(Enumerable.Sum).ToList();
-        calories.Sort();
-        var result = calories.Last();
-        return new ValueTask<string>(result.ToString());
+        return GetCalibrationValue(GetCalibrationLines(Input.Value));
     }
 
     public override ValueTask<string> Solve_2()
     {
-        var packing = GetPackList(Input.Value);
-        var calories = packing.Select(Enumerable.Sum).ToList();
-        calories.Sort();
-        return new ValueTask<string>(calories.TakeLast(3).Sum().ToString());
+        var lines = GetCalibrationLines(Input.Value).Select(l => l
+            .Replace("zero", "zero0zero")
+            .Replace("one", "one1one")
+            .Replace("two", "two2two")
+            .Replace("three", "three3three")
+            .Replace("four", "four4four")
+            .Replace("five", "five5five")
+            .Replace("six", "six6six")
+            .Replace("seven", "seven7seven")
+            .Replace("eight", "eight8eight")
+            .Replace("nine", "nine9nine"));
+        return GetCalibrationValue(lines);
     }
 
-    private static IEnumerable<IEnumerable<int>> GetPackList(string input)
+    private static IEnumerable<string> GetCalibrationLines(string input)
     {
-        return input.Split($"{Environment.NewLine}{Environment.NewLine}")
-            .Select(backpack => backpack.Split(Environment.NewLine)
-                .Select(int.Parse)
-                .ToList()).Cast<IEnumerable<int>>();
+        return input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+    }
+
+    private static ValueTask<string> GetCalibrationValue(IEnumerable<string> lines)
+    {
+        var calibrationValue = 0;
+        foreach (var line in lines)
+        {
+            char? firstDigit = null;
+            char? lastDigit = null;
+            foreach (var character in line.Where(character => char.IsDigit(character)))
+            {
+                if (!firstDigit.HasValue)
+                {
+                    firstDigit = character;
+                }
+                else
+                {
+                    lastDigit = character;
+                }
+            }
+
+            lastDigit ??= firstDigit;
+
+            calibrationValue += int.Parse($"{firstDigit}{lastDigit}");
+        }
+
+        return new ValueTask<string>(calibrationValue.ToString());
     }
 }

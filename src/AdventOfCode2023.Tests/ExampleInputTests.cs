@@ -1,4 +1,4 @@
-using AdventOfCode2023.Days;
+﻿using AdventOfCode2023.Days;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
@@ -8,7 +8,7 @@ namespace AdventOfCode2023.Tests;
 public class ExampleInputTests
 {
     [Theory]
-    [InlineData(typeof(Day01), "24000", "45000")]
+    [InlineData(typeof(Day01), "142", "281")]
     public async Task TestDay(Type type, string expectedSolution1 = "Not solved", string expectedSolution2 = "Not solved")
     {
         if (Activator.CreateInstance(type) is DayBase instance)
