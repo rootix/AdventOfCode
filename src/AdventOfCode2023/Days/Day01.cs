@@ -23,7 +23,7 @@ public class Day01 : DayBase
         return GetCalibrationValue(lines);
     }
 
-    private static IEnumerable<string> GetCalibrationLines(string input)
+    private static string[] GetCalibrationLines(string input)
     {
         return input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
     }
