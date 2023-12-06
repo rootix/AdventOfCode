@@ -19,7 +19,7 @@ public class Day03 : DayBase
         var gears = schematic.Symbols.Where(s => s.Character == '*');
         var gearRatios = gears.Select(g => GetAdjacentNumbers(g, schematic.Numbers))
             .Where(g => g.Count() == 2)
-            .Select(n => n.Aggregate(1, (a, b) => a * b.Value))
+            .Select(n => n.Select(l => l.Value).Multiply())
             .Sum();
 
         return new ValueTask<string>(gearRatios.ToString());
