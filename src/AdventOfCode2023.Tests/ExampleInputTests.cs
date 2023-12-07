@@ -14,6 +14,7 @@ public class ExampleInputTests
     [InlineData(typeof(Day04), "13", "30")]
     [InlineData(typeof(Day05), "35", "46")]
     [InlineData(typeof(Day06), "288", "71503")]
+    [InlineData(typeof(Day07), "6440", "5905")]
     public async Task TestDay(Type type, string expectedSolution1 = "Not solved", string expectedSolution2 = "Not solved")
     {
         if (Activator.CreateInstance(type) is DayBase instance)
