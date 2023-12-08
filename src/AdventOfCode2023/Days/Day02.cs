@@ -32,7 +32,7 @@ public class Day02 : DayBase
     private Game[] ParseGames()
     {
         var games = new List<Game>();
-        var gameLines = Input.Value.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        var gameLines = Input.Value.SplitByLine();
         foreach (var gameLine in gameLines)
         {
             var parts = gameLine.Split(':', StringSplitOptions.TrimEntries);
@@ -48,7 +48,7 @@ public class Day02 : DayBase
                 var colorsWithAmount = roundString.Split(',', StringSplitOptions.TrimEntries);
                 foreach (var colorWithAmountString in colorsWithAmount)
                 {
-                    var colorWithAmount = colorWithAmountString.Split(' ');
+                    var colorWithAmount = colorWithAmountString.SplitByWhitespace();
                     var amount = int.Parse(colorWithAmount[0]);
                     switch (colorWithAmount[1])
                     {

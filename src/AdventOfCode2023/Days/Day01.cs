@@ -4,12 +4,12 @@ public class Day01 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        return GetCalibrationValue(GetCalibrationLines(Input.Value));
+        return GetCalibrationValue(Input.Value.SplitByLine());
     }
 
     public override ValueTask<string> Solve_2()
     {
-        var lines = GetCalibrationLines(Input.Value).Select(l => l
+        var lines = Input.Value.SplitByLine().Select(l => l
             .Replace("zero", "zero0zero")
             .Replace("one", "one1one")
             .Replace("two", "two2two")
@@ -23,11 +23,6 @@ public class Day01 : DayBase
         return GetCalibrationValue(lines);
     }
 
-    private static string[] GetCalibrationLines(string input)
-    {
-        return input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-    }
-
     private static ValueTask<string> GetCalibrationValue(IEnumerable<string> lines)
     {
         var calibrationValue = 0;
@@ -35,7 +30,7 @@ public class Day01 : DayBase
         {
             char? firstDigit = null;
             char? lastDigit = null;
-            foreach (var character in line.Where(character => char.IsDigit(character)))
+            foreach (var character in line.Where(char.IsDigit))
             {
                 if (!firstDigit.HasValue)
                 {

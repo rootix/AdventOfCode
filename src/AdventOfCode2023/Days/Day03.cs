@@ -27,7 +27,7 @@ public class Day03 : DayBase
 
     private (Number[] Numbers, Symbol[] Symbols) ParseSchematic()
     {
-        var lines = Input.Value.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        var lines = Input.Value.SplitByLine();
         var numbers = new List<Number>();
         var symbols = new List<Symbol>();
         var numberPattern = new Regex(@"\d+");
@@ -63,8 +63,6 @@ public class Day03 : DayBase
                            n.Line <= gear.Line + 1 &&
                            n.End >= gear.Pos - 1 &&
                            n.Start <= gear.Pos + 1);
-
-    private static bool IsSymbol(char c) => !char.IsDigit(c) && c != 46;
 
     private sealed record Number(int Value, int Line, int Start, int End);
 

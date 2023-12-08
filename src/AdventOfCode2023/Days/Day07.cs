@@ -54,9 +54,9 @@ public class Day07 : DayBase
 
     private IEnumerable<Hand> ParseHands(bool part1)
     {
-        foreach (var line in Input.Value.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+        foreach (var line in Input.Value.SplitByLine())
         {
-            var parts = line.Split(' ', StringSplitOptions.TrimEntries);
+            var parts = line.SplitByWhitespace();
             var handString = parts[0];
             var bid = int.Parse(parts[1]);
             var type = part1 ? EvaluateTypeForHand(handString) : EvaluateTypeForHandWithJ(handString);

@@ -4,12 +4,12 @@ public class Day06 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        var parts = Input.Value.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-        var times = parts[0].Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        var parts = Input.Value.SplitByLine();
+        var times = parts[0].SplitByWhitespace()
             .Where(t => t.All(char.IsDigit))
             .Select(long.Parse)
             .ToArray();
-        var distances = parts[1].Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        var distances = parts[1].SplitByWhitespace()
             .Where(t => t.All(char.IsDigit))
             .Select(long.Parse)
             .ToArray();
@@ -21,7 +21,7 @@ public class Day06 : DayBase
 
     public override ValueTask<string> Solve_2()
     {
-        var parts = Input.Value.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        var parts = Input.Value.SplitByLine();
         var time = long.Parse(parts[0].Replace(" ", string.Empty).Split(':')[1]);
         var distance = long.Parse(parts[1].Replace(" ", string.Empty).Split(':')[1]);
 

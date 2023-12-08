@@ -41,11 +41,11 @@ public class Day08 : DayBase
 
     private (char[] Instructions, IReadOnlyDictionary<string, (string Left, string Right)> Network) ParseInput()
     {
-        var groups = Input.Value.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
+        var groups = Input.Value.SplitByGroup();
         var instructions = groups[0].ToArray();
 
         var networkLineRegex = new Regex(@"([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)");
-        var network = groups[1].Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+        var network = groups[1].SplitByLine()
             .Select(networkLine => networkLineRegex.Match(networkLine)).ToDictionary(
                 nodeMatches => nodeMatches.Groups[1].Value,
                 nodeMatches => (nodeMatches.Groups[2].Value, nodeMatches.Groups[3].Value));

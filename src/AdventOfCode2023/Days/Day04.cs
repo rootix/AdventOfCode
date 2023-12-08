@@ -31,11 +31,11 @@ public class Day04 : DayBase
 
     private IEnumerable<Card> ParseCards()
     {
-        foreach (var cardString in Input.Value.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+        foreach (var cardString in Input.Value.SplitByLine())
         {
             var parts = cardString.Split('|', StringSplitOptions.TrimEntries);
-            var winningNumbers = parts[0].Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToHashSet();
-            var numbers = parts[1].Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var winningNumbers = parts[0].SplitByWhitespace().ToHashSet();
+            var numbers = parts[1].SplitByWhitespace().ToArray();
 
             yield return new Card(winningNumbers, numbers);
         }

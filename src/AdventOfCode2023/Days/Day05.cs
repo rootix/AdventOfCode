@@ -23,28 +23,26 @@ public class Day05 : DayBase
 
     private (long[] Seeds, Map[] Maps) ParseAlmanac()
     {
-        var groups = Input.Value.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
+        var groups = Input.Value.SplitByGroup();
         var seeds = groups[0]
-            .Split(' ', StringSplitOptions.TrimEntries)
+            .SplitByWhitespace()
             .Where(s => s.All(char.IsDigit))
-            .Select(long.Parse).ToArray();
+            .Select(long.Parse)
+            .ToArray();
 
         var maps = new List<Map>();
         foreach (var map in groups.Skip(1))
         {
-            var mapLines = map.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var mapLines = map.SplitByLine();
             var mapLinesList = new List<MapLine>();
             foreach (var mapLine in mapLines.Skip(1))
             {
                 var numbers = mapLine
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                    .SplitByWhitespace()
                     .Select(long.Parse)
                     .ToArray();
-                var destination = numbers[0];
-                var source = numbers[1];
-                var range = numbers[2];
 
-                mapLinesList.Add(new MapLine(destination, source, range));
+                mapLinesList.Add(new MapLine(numbers[0], numbers[1], numbers[2]));
             }
 
             maps.Add(new Map([.. mapLinesList]));
