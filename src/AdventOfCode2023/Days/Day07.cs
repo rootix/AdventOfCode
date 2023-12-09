@@ -122,7 +122,7 @@ public class Day07 : DayBase
         FiveOfAKind
     }
 
-	private sealed class HandComparer(IReadOnlyDictionary<char, int> cardValues) : IComparer<Hand>
+    private sealed class HandComparer(IReadOnlyDictionary<char, int> cardValues) : IComparer<Hand>
     {
         public int Compare(Hand? x, Hand? y)
         {
