@@ -1,13 +1,6 @@
-# Advent of Code 2023 in C#
+# Advent of Code
 
-This year i want to focus solely on the puzzles and have not much spare time to invest into learning a new language.
-Rust, someday, i promise.
+These are my solutions to all Advent of Code puzzles i've solved (I can now finally say over the years :D).
 
-The project is based on [AoCHelper](https://github.com/eduherminio/AoCHelper) to simplify the execution and having a helpful output.
-You can either run the project with:
-
-- `dotnet run` to run only the newest available day
-- `dotnet run <day>` to run a specific day
-- `dotnet run all` to run all days
-
-The test project allows me to easily run the individual days against the example input.
+- [2022](./2022) - In TypeScript
+- [2023](./2023) - In C#
