@@ -88,7 +88,7 @@ public class Day10 : DayBase
             var currentPipe = pipes[currentPosition];
             if (currentPipe is '|' or 'L' or 'J' && lastDirection is not Direction.South)
             {
-                var northCoordinate = currentPosition.GetNorthCoordinate();
+                var northCoordinate = currentPosition.GetAboveCoordinate();
                 if (pipes.ContainsKey(northCoordinate))
                 {
                     lastDirection = Direction.North;
@@ -99,7 +99,7 @@ public class Day10 : DayBase
 
             if (currentPipe is '-' or 'L' or 'F' && lastDirection is not Direction.West)
             {
-                var eastCoordinate = currentPosition.GetEastCoordinate();
+                var eastCoordinate = currentPosition.GetRightCoordinate();
                 if (pipes.ContainsKey(eastCoordinate))
                 {
                     lastDirection = Direction.East;
@@ -110,7 +110,7 @@ public class Day10 : DayBase
 
             if (currentPipe is '|' or '7' or 'F' && lastDirection is not Direction.North)
             {
-                var southCoordinate = currentPosition.GetSouthCoordinate();
+                var southCoordinate = currentPosition.GetBelowCoordinate();
                 if (pipes.ContainsKey(southCoordinate))
                 {
                     lastDirection = Direction.South;
@@ -121,7 +121,7 @@ public class Day10 : DayBase
 
             if (currentPipe is '-' or '7' or 'J' && lastDirection is not Direction.East)
             {
-                var westCoordinate = currentPosition.GetWestCoordinate();
+                var westCoordinate = currentPosition.GetLeftCoordinate();
                 if (pipes.ContainsKey(westCoordinate))
                 {
                     lastDirection = Direction.West;
@@ -134,7 +134,7 @@ public class Day10 : DayBase
         }
     }
 
-    private static int CountEnclosed(IReadOnlyList<char[]> map, IReadOnlySet<Coordinate2D> loop)
+    private static int CountEnclosed(IReadOnlyList<char[]> map, HashSet<Coordinate2D> loop)
     {
         List<string> cleanedMap = [];
         for (var y = 0; y < map.Count; y++)
@@ -175,13 +175,5 @@ public class Day10 : DayBase
         East,
         South,
         West
-    }
-
-    private sealed record Coordinate2D(int Y, int X)
-    {
-        public Coordinate2D GetNorthCoordinate() => this with { Y = Y - 1 };
-        public Coordinate2D GetEastCoordinate() => this with { X = X + 1 };
-        public Coordinate2D GetSouthCoordinate() => this with { Y = Y + 1 };
-        public Coordinate2D GetWestCoordinate() => this with { X = X - 1 };
     }
 }
