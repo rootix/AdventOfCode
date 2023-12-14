@@ -9,4 +9,10 @@ public static class Extensions
     public static string[] SplitByWhitespace(this string input) => input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
     public static string[] SplitByGroup(this string input) => input.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
+
+    public static string ReplaceFirstOccurence(this string input, char toReplace, char replaceWith)
+    {
+        var index = input.IndexOf(toReplace);
+        return index < 0 ? input : input.Remove(index, 1).Insert(index, replaceWith.ToString());
+    }
 }
