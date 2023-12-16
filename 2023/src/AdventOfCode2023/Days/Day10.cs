@@ -43,26 +43,26 @@ public class Day10 : DayBase
         var lines = Input.Value.SplitByLine();
         var map = new char[lines.Length][];
         var pipes = new Dictionary<Coordinate2D, char>();
-        for (var y = 0; y < lines.Length; y++)
+        for (var row = 0; row < lines.Length; row++)
         {
-            var line = new char[lines[y].Length];
-            for (var x = 0; x < lines[y].Length; x++)
+            var line = new char[lines[row].Length];
+            for (var col = 0; col < lines[row].Length; col++)
             {
-                var posChar = lines[y][x];
-                line[x] = posChar;
+                var posChar = lines[row][col];
+                line[col] = posChar;
 
                 if (posChar != '.')
                 {
-                    pipes.Add(new Coordinate2D(y, x), posChar);
+                    pipes.Add(new Coordinate2D(row, col), posChar);
                 }
 
                 if (posChar == 'S')
                 {
-                    sPosition = new Coordinate2D(y, x);
+                    sPosition = new Coordinate2D(row, col);
                 }
             }
 
-            map[y] = line;
+            map[row] = line;
         }
 
         return (map, pipes, sPosition);
@@ -137,12 +137,12 @@ public class Day10 : DayBase
     private static int CountEnclosed(IReadOnlyList<char[]> map, HashSet<Coordinate2D> loop)
     {
         List<string> cleanedMap = [];
-        for (var y = 0; y < map.Count; y++)
+        for (var row = 0; row < map.Count; row++)
         {
             StringBuilder sb = new();
-            for (var x = 0; x <= map[y].Length; x++)
+            for (var col = 0; col <= map[row].Length; col++)
             {
-                sb.Append(loop.Contains(new Coordinate2D(y, x)) ? map[y][x] : '.');
+                sb.Append(loop.Contains(new Coordinate2D(row, col)) ? map[row][col] : '.');
             }
 
             cleanedMap.Add(Regex.Replace(Regex.Replace(sb.ToString(), "F-*7|L-*J", string.Empty), "F-*J|L-*7", "|"));

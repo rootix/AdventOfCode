@@ -25,31 +25,31 @@ public class Day11 : DayBase
         var emptyRows = new HashSet<int>();
         var emptyCols = new HashSet<int>();
 
-        for (var y = 0; y < lines.Length; y++)
+        for (var row = 0; row < lines.Length; row++)
         {
-            if (y == 0)
+            if (row == 0)
             {
-                foreach (var i in Enumerable.Range(0, lines[y].Length))
+                foreach (var i in Enumerable.Range(0, lines[row].Length))
                 {
                     emptyCols.Add(i);
                 }
             }
 
             var emptyRow = true;
-            var line = new char[lines[y].Length];
-            for (var x = 0; x < lines[y].Length; x++)
+            var line = new char[lines[row].Length];
+            for (var col = 0; col < lines[row].Length; col++)
             {
-                line[x] = lines[y][x];
-                if (line[x] != '#') continue;
+                line[col] = lines[row][col];
+                if (line[col] != '#') continue;
 
-                stars.Add(new Coordinate2D(y, x));
+                stars.Add(new Coordinate2D(row, col));
                 emptyRow = false;
-                emptyCols.Remove(x);
+                emptyCols.Remove(col);
             }
 
             if (emptyRow)
             {
-                emptyRows.Add(y);
+                emptyRows.Add(row);
             }
         }
 
@@ -66,13 +66,13 @@ public class Day11 : DayBase
                 var from = stars[i];
                 var to = stars[j];
 
-                var minX = Math.Min(from.X, to.X);
-                var maxX = Math.Max(from.X, to.X);
-                var minY = Math.Min(from.Y, to.Y);
-                var maxY = Math.Max(from.Y, to.Y);
+                var minCol = Math.Min(from.Col, to.Col);
+                var maxCol = Math.Max(from.Col, to.Col);
+                var minRow = Math.Min(from.Row, to.Row);
+                var maxRow = Math.Max(from.Row, to.Row);
 
-                long distance = maxX - minX + emptyColumns.Count(c => c > minX && c < maxX) * expansion;
-                distance += maxY - minY + emptyRows.Count(r => r > minY && r < maxY) * expansion;
+                long distance = maxCol - minCol + emptyColumns.Count(c => c > minCol && c < maxCol) * expansion;
+                distance += maxRow - minRow + emptyRows.Count(r => r > minRow && r < maxRow) * expansion;
 
                 shortestDistances += distance;
             }

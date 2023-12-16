@@ -1,9 +1,9 @@
 ﻿namespace AdventOfCode2023.Helpers;
 
-public record Coordinate2D(int Y, int X)
+public record Coordinate2D(int Row, int Col)
 {
-    public Coordinate2D GetAboveCoordinate() => this with { Y = Y - 1 };
-    public Coordinate2D GetRightCoordinate() => this with { X = X + 1 };
-    public Coordinate2D GetBelowCoordinate() => this with { Y = Y + 1 };
-    public Coordinate2D GetLeftCoordinate() => this with { X = X - 1 };
+    public Coordinate2D GetAboveCoordinate() => this with { Row = Row - 1 };
+    public Coordinate2D GetRightCoordinate() => this with { Col = Col + 1 };
+    public Coordinate2D GetBelowCoordinate() => this with { Row = Row + 1 };
+    public Coordinate2D GetLeftCoordinate() => this with { Col = Col - 1 };
 }
