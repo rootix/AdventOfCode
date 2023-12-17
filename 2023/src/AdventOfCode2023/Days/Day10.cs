@@ -86,45 +86,45 @@ public class Day10 : DayBase
             length += 1;
 
             var currentPipe = pipes[currentPosition];
-            if (currentPipe is '|' or 'L' or 'J' && lastDirection is not Direction.South)
+            if (currentPipe is '|' or 'L' or 'J' && lastDirection is not Direction.Down)
             {
-                var northCoordinate = currentPosition.GetAboveCoordinate();
+                var northCoordinate = currentPosition.Move(Direction.Up);
                 if (pipes.ContainsKey(northCoordinate))
                 {
-                    lastDirection = Direction.North;
+                    lastDirection = Direction.Up;
                     currentPosition = northCoordinate;
                     continue;
                 }
             }
 
-            if (currentPipe is '-' or 'L' or 'F' && lastDirection is not Direction.West)
+            if (currentPipe is '-' or 'L' or 'F' && lastDirection is not Direction.Left)
             {
-                var eastCoordinate = currentPosition.GetRightCoordinate();
+                var eastCoordinate = currentPosition.Move(Direction.Right);
                 if (pipes.ContainsKey(eastCoordinate))
                 {
-                    lastDirection = Direction.East;
+                    lastDirection = Direction.Right;
                     currentPosition = eastCoordinate;
                     continue;
                 }
             }
 
-            if (currentPipe is '|' or '7' or 'F' && lastDirection is not Direction.North)
+            if (currentPipe is '|' or '7' or 'F' && lastDirection is not Direction.Up)
             {
-                var southCoordinate = currentPosition.GetBelowCoordinate();
+                var southCoordinate = currentPosition.Move(Direction.Down);
                 if (pipes.ContainsKey(southCoordinate))
                 {
-                    lastDirection = Direction.South;
+                    lastDirection = Direction.Down;
                     currentPosition = southCoordinate;
                     continue;
                 }
             }
 
-            if (currentPipe is '-' or '7' or 'J' && lastDirection is not Direction.East)
+            if (currentPipe is '-' or '7' or 'J' && lastDirection is not Direction.Right)
             {
-                var westCoordinate = currentPosition.GetLeftCoordinate();
+                var westCoordinate = currentPosition.Move(Direction.Left);
                 if (pipes.ContainsKey(westCoordinate))
                 {
-                    lastDirection = Direction.West;
+                    lastDirection = Direction.Left;
                     currentPosition = westCoordinate;
                     continue;
                 }
@@ -167,13 +167,5 @@ public class Day10 : DayBase
         }
 
         return enclosed;
-    }
-
-    private enum Direction
-    {
-        North,
-        East,
-        South,
-        West
     }
 }

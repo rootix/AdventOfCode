@@ -10,6 +10,10 @@ public static class Extensions
 
     public static string[] SplitByGroup(this string input) => input.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
 
+    public static char[][] ToGrid(this string input) => input.SplitByLine().Select(s => s.ToCharArray()).ToArray();
+
+    public static int[][] ToIntGrid(this string input) => input.SplitByLine().Select(s => s.ToCharArray().Where(char.IsDigit).Select(c => c - '0').ToArray()).ToArray();
+
     public static string ReplaceFirstOccurence(this string input, char toReplace, char replaceWith)
     {
         var index = input.IndexOf(toReplace);

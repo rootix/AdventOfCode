@@ -4,7 +4,7 @@ public class Day16 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        var grid = Input.Value.SplitByLine().Select(s => s.ToCharArray()).ToArray();
+        var grid = Input.Value.ToGrid();
         var energyLevel = GetEnergyLevel(grid, new Beam(new Coordinate2D(0, -1), Direction.Right));
 
         return new ValueTask<string>(energyLevel.ToString());
@@ -12,7 +12,7 @@ public class Day16 : DayBase
 
     public override ValueTask<string> Solve_2()
     {
-        var grid = Input.Value.SplitByLine().Select(s => s.ToCharArray()).ToArray();
+        var grid = Input.Value.ToGrid();
         var startBeams = new List<Beam>();
 
         for (var col = 0; col < grid[0].Length; col++)
@@ -40,7 +40,7 @@ public class Day16 : DayBase
         {
             foreach (var beam in beams.ToArray())
             {
-                beam.Position = Move(beam);
+                beam.Position = beam.Position.Move(beam.Direction);
                 if (energized.Contains((beam.Position, beam.Direction)) ||
                     beam.Position.Row < 0 ||
                     beam.Position.Row > grid.Length - 1 ||
@@ -92,23 +92,6 @@ public class Day16 : DayBase
         }
 
         return energized.Select(e => e.Item1).Distinct().Count();
-    }
-
-    private static Coordinate2D Move(Beam beam) => beam.Direction switch
-    {
-        Direction.Up => beam.Position.GetAboveCoordinate(),
-        Direction.Right => beam.Position.GetRightCoordinate(),
-        Direction.Down => beam.Position.GetBelowCoordinate(),
-        Direction.Left => beam.Position.GetLeftCoordinate(),
-        _ => throw new NotSupportedException()
-    };
-
-    private enum Direction
-    {
-        Up,
-        Right,
-        Down,
-        Left
     }
 
     private sealed class Beam(Coordinate2D position, Direction direction)

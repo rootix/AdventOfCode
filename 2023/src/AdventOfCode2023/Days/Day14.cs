@@ -4,7 +4,7 @@ public class Day14 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        var platform = ParsePlatform();
+        var platform = Input.Value.ToGrid();
         TiltNorth(platform);
         var sum = CalculateLoad(platform);
 
@@ -13,7 +13,7 @@ public class Day14 : DayBase
 
     public override ValueTask<string> Solve_2()
     {
-        var platform = ParsePlatform();
+        var platform = Input.Value.ToGrid();
         var cycleDetector = new Dictionary<string, int>();
         var cycleDetected = false;
 
@@ -40,11 +40,6 @@ public class Day14 : DayBase
         var sum = CalculateLoad(platform);
 
         return new ValueTask<string>(sum.ToString());
-    }
-
-    private char[][] ParsePlatform()
-    {
-        return Input.Value.SplitByLine().Select(s => s.ToCharArray()).ToArray();
     }
 
     private static void TiltNorth(char[][] platform)
