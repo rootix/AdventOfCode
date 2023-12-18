@@ -9,7 +9,7 @@ public class Day10 : DayBase
 
     public override ValueTask<string> Solve_1()
     {
-        var (_, pipes, sPosition) = ParseMap();
+        var (pipes, sPosition) = ParseMap();
         var length = 0;
         foreach (var startPipe in PIPE_CHARACTERS)
         {
@@ -24,24 +24,23 @@ public class Day10 : DayBase
 
     public override ValueTask<string> Solve_2()
     {
-        var (map, pipes, sPosition) = ParseMap();
+        var (pipes, sPosition) = ParseMap();
         var enclosed = 0;
         foreach (var startPipe in PIPE_CHARACTERS)
         {
             var result = FollowPipe(startPipe, sPosition, pipes);
             if (!result.IsLoop) continue;
-            enclosed = CountEnclosed(map, result.Path.ToHashSet());
+            enclosed = CountEnclosed(result.Path);
             break;
         }
 
         return new ValueTask<string>(enclosed.ToString());
     }
 
-    private (char[][] Map, IDictionary<Coordinate2D, char> Pipes, Coordinate2D SPosition) ParseMap()
+    private (IDictionary<Coordinate2D, char> Pipes, Coordinate2D SPosition) ParseMap()
     {
         var sPosition = new Coordinate2D(0, 0);
         var lines = Input.Value.SplitByLine();
-        var map = new char[lines.Length][];
         var pipes = new Dictionary<Coordinate2D, char>();
         for (var row = 0; row < lines.Length; row++)
         {
@@ -61,11 +60,9 @@ public class Day10 : DayBase
                     sPosition = new Coordinate2D(row, col);
                 }
             }
-
-            map[row] = line;
         }
 
-        return (map, pipes, sPosition);
+        return (pipes, sPosition);
     }
 
     private static (bool IsLoop, int Length, Coordinate2D[] Path) FollowPipe(char startPipe, Coordinate2D startPosition, IDictionary<Coordinate2D, char> pipes)
@@ -134,38 +131,17 @@ public class Day10 : DayBase
         }
     }
 
-    private static int CountEnclosed(IReadOnlyList<char[]> map, HashSet<Coordinate2D> loop)
+    // Shoelace & Pick's Theorem
+    private static int CountEnclosed(Coordinate2D[] loop)
     {
-        List<string> cleanedMap = [];
-        for (var row = 0; row < map.Count; row++)
+        double area = 0;
+        for (var i = 0; i < loop.Length; i++)
         {
-            StringBuilder sb = new();
-            for (var col = 0; col <= map[row].Length; col++)
-            {
-                sb.Append(loop.Contains(new Coordinate2D(row, col)) ? map[row][col] : '.');
-            }
-
-            cleanedMap.Add(Regex.Replace(Regex.Replace(sb.ToString(), "F-*7|L-*J", string.Empty), "F-*J|L-*7", "|"));
+            var nextIndex = (i + 1) % loop.Length;
+            area += loop[i].Col * loop[nextIndex].Row - loop[i].Row * loop[nextIndex].Col;
         }
 
-        var enclosed = 0;
-        foreach (var line in cleanedMap)
-        {
-            var parity = 0;
-            foreach (var c in line)
-            {
-                switch (c)
-                {
-                    case '|':
-                        parity++;
-                        break;
-                    case '.' when parity % 2 == 1:
-                        enclosed++;
-                        break;
-                }
-            }
-        }
-
-        return enclosed;
+        var result = Math.Round(area / 2 - loop.Length / 2 + 1);
+        return Convert.ToInt32(result);
     }
 }

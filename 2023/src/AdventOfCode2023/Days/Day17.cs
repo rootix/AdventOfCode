@@ -44,7 +44,8 @@ public class Day17 : DayBase
                     TryEnqueueNextMove(grid, move, Direction.Left, queue, cache);
                     TryEnqueueNextMove(grid, move, Direction.Right, queue, cache);
                 }
-                else {
+                else
+                {
                     TryEnqueueNextMove(grid, move, Direction.Up, queue, cache);
                     TryEnqueueNextMove(grid, move, Direction.Down, queue, cache);
                 }

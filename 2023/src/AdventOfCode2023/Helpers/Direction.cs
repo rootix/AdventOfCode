@@ -1,4 +1,4 @@
-namespace AdventOfCode2023.Helpers;
+﻿namespace AdventOfCode2023.Helpers;
 
 public enum Direction
 {
