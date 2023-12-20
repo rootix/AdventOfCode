@@ -8,7 +8,7 @@ namespace AdventOfCode2023.Tests;
 public class ExampleInputTests
 {
     [Theory]
-    [InlineData(typeof(Day01), "142", "281")]
+    [InlineData(typeof(Day01), "54667", "54203")] // After solving: Real input due to different samples for 1 & 2
     [InlineData(typeof(Day02), "8", "2286")]
     [InlineData(typeof(Day03), "4361", "467835")]
     [InlineData(typeof(Day04), "13", "30")]
@@ -27,6 +27,7 @@ public class ExampleInputTests
     [InlineData(typeof(Day17), "102", "94")]
     [InlineData(typeof(Day18), "62", "952408144115")]
     [InlineData(typeof(Day19), "19114", "167409079868000")]
+    [InlineData(typeof(Day20), "703315117", "230402300925361")] // After solving: Real input due to no sample for 2
     public async Task TestDay(Type type, string expectedSolution1 = "Not solved", string expectedSolution2 = "Not solved")
     {
         if (Activator.CreateInstance(type) is DayBase instance)

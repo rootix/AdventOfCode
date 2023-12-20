@@ -34,7 +34,7 @@ public class Day08 : DayBase
             allSteps[n] = nodeSteps;
         }
 
-        var steps = allSteps.Aggregate(CalculateLeastCommonMultiple);
+        var steps = allSteps.Aggregate(MathHelpers.CalculateLeastCommonMultiple);
 
         return new ValueTask<string>(steps.ToString());
     }
@@ -54,8 +54,4 @@ public class Day08 : DayBase
     }
 
     private static string GetNextNode(char instruction, (string Left, string Right) currentNode) => instruction == 'L' ? currentNode.Left : currentNode.Right;
-
-    private static long CalculateLeastCommonMultiple(long a, long b) => a * b / CalculateGreatestCommonDivisor(a, b);
-
-    private static long CalculateGreatestCommonDivisor(long a, long b) => b == 0 ? a : CalculateGreatestCommonDivisor(b, a % b);
 }
