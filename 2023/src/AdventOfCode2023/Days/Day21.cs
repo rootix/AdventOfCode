@@ -4,19 +4,19 @@ public class Day21 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        var (garden, startPosition) = ParseInput();
-        var reachableGardenPlots = CalculateReachableGardenPlots(garden, startPosition, 64);
+        var garden = ParseInput();
+        var reachableGardenPlots = CalculateReachableGardenPlots(garden, 64);
         return new ValueTask<string>(reachableGardenPlots.ToString());
     }
 
     // Part 2 is copied from https://pastebin.com/u/scibuff
     public override ValueTask<string> Solve_2()
     {
-        var (garden, startPosition) = ParseInput();
+        var garden = ParseInput();
         long[] values = [
-            CalculateReachableGardenPlots(garden, startPosition, 65),
-            CalculateReachableGardenPlots(garden, startPosition, 65 + 131),
-            CalculateReachableGardenPlots(garden, startPosition, 65 + 131 * 2)
+            CalculateReachableGardenPlots(garden, 65),
+            CalculateReachableGardenPlots(garden, 65 + 131),
+            CalculateReachableGardenPlots(garden, 65 + 131 * 2)
         ];
 
         var poly = GetSimplifiedLagrange(values);
@@ -25,36 +25,16 @@ public class Day21 : DayBase
         return new ValueTask<string>(result.ToString());
     }
 
-    private (char[][] Garden, Coordinate2D StartPosition) ParseInput()
+    private Grid<char> ParseInput()
     {
-        var rowStrings = Input.Value.SplitByLine();
-        var garden = new char[rowStrings.Length][];
-        Coordinate2D startPosition = null!;
-        for (var row = 0; row < rowStrings.Length; row++)
-        {
-            var rowString = rowStrings[row];
-            var cols = new char[rowString.Length];
-            for (var col = 0; col < rowString.Length; col++)
-            {
-                if (rowString[col] == 'S')
-                {
-                    startPosition = new Coordinate2D(row, col);
-                }
-
-                cols[col] = rowString[col];
-            }
-
-            garden[row] = cols;
-        }
-
-        return (garden, startPosition);
+        return new GridBuilder<char>().WithStartPosition('S').ExcludeValues(['#']).Build(Input.Value);
     }
 
-    private static long CalculateReachableGardenPlots(char[][] garden, Coordinate2D startPosition, long steps)
+    private static long CalculateReachableGardenPlots(Grid<char> garden, long steps)
     {
         Dictionary<Coordinate2D, long> visited = [];
         Queue<(Coordinate2D Position, long Step)> work = new();
-        work.Enqueue((startPosition, 0));
+        work.Enqueue((garden.StartPosition, 0));
 
         while (work.Count > 0)
         {
@@ -74,16 +54,12 @@ public class Day21 : DayBase
 
         bool IsValidStep(Coordinate2D position)
         {
-            var wrappedPos = GetWrappedPosition(position, garden.Length);
-            return wrappedPos.Row >= 0 &&
-                   wrappedPos.Row < garden.Length &&
-                   wrappedPos.Col >= 0 &&
-                   wrappedPos.Col < garden[wrappedPos.Row].Length &&
-                   garden[wrappedPos.Row][wrappedPos.Col] != '#';
+            var wrappedPos = GetWrappedPosition(position, garden.RowCount);
+            return garden.IsIncluded(wrappedPos);
         }
     }
 
-    private static Coordinate2D GetWrappedPosition(Coordinate2D position, int gridLength)
+    private static Coordinate2D GetWrappedPosition(Coordinate2D position, long gridLength)
     {
         var row = position.Row % gridLength;
         var col = position.Col % gridLength;

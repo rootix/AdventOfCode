@@ -4,7 +4,7 @@ public class Day16 : DayBase
 {
     public override ValueTask<string> Solve_1()
     {
-        var grid = Input.Value.ToGrid();
+        var grid = new GridBuilder<char>().Build(Input.Value);
         var energyLevel = GetEnergyLevel(grid, new Beam(new Coordinate2D(0, -1), Direction.Right));
 
         return new ValueTask<string>(energyLevel.ToString());
@@ -12,19 +12,19 @@ public class Day16 : DayBase
 
     public override ValueTask<string> Solve_2()
     {
-        var grid = Input.Value.ToGrid();
+        var grid = new GridBuilder<char>().Build(Input.Value);
         var startBeams = new List<Beam>();
 
-        for (var col = 0; col < grid[0].Length; col++)
+        for (var col = 0; col < grid.MaxColIndex; col++)
         {
             startBeams.Add(new Beam(new Coordinate2D(-1, col), Direction.Down));
-            startBeams.Add(new Beam(new Coordinate2D(grid.Length + 1, col), Direction.Up));
+            startBeams.Add(new Beam(new Coordinate2D(grid.MaxRowIndex + 1, col), Direction.Up));
         }
 
-        for (var row = 0; row < grid.Length; row++)
+        for (var row = 0; row < grid.MaxRowIndex; row++)
         {
             startBeams.Add(new Beam(new Coordinate2D(row, -1), Direction.Right));
-            startBeams.Add(new Beam(new Coordinate2D(row, grid[row].Length + 1), Direction.Left));
+            startBeams.Add(new Beam(new Coordinate2D(row, grid.MaxColIndex + 1), Direction.Left));
         }
 
         var maxEnergyLevel = startBeams.Select(beam => GetEnergyLevel(grid, beam)).Prepend(0).Max();
@@ -32,7 +32,7 @@ public class Day16 : DayBase
         return new ValueTask<string>(maxEnergyLevel.ToString());
     }
 
-    private static int GetEnergyLevel(char[][] grid, Beam startBeam)
+    private static int GetEnergyLevel(Grid<char> grid, Beam startBeam)
     {
         var beams = new List<Beam> { startBeam };
         var energized = new HashSet<(Coordinate2D, Direction)>();
@@ -42,17 +42,14 @@ public class Day16 : DayBase
             {
                 beam.Position = beam.Position.Move(beam.Direction);
                 if (energized.Contains((beam.Position, beam.Direction)) ||
-                    beam.Position.Row < 0 ||
-                    beam.Position.Row > grid.Length - 1 ||
-                    beam.Position.Col < 0 ||
-                    beam.Position.Col > grid[0].Length - 1)
+                    !grid.IsWithinBounds(beam.Position))
                 {
                     beams.Remove(beam);
                     continue;
                 }
 
                 energized.Add((beam.Position, beam.Direction));
-                var encounter = grid[beam.Position.Row][beam.Position.Col];
+                var encounter = grid.GetValue(beam.Position);
                 switch (encounter)
                 {
                     case '-' when beam.Direction is Direction.Left or Direction.Right:
