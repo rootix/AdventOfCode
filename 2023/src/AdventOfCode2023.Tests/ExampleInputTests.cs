@@ -28,13 +28,15 @@ public class ExampleInputTests
     [InlineData(typeof(Day18), "62", "952408144115")]
     [InlineData(typeof(Day19), "19114", "167409079868000")]
     [InlineData(typeof(Day20), "703315117", "230402300925361")] // After solving: Real input due to no sample for 2
-    [InlineData(typeof(Day21), "2665", "468883362249322")] // After solving: Sample input but with the steps given for the real result
+    [InlineData(typeof(Day21), "16", "468883362249322")] // Extrapolated solution 2 as there is none provided
     [InlineData(typeof(Day22), "5", "7")]
     [InlineData(typeof(Day23), "94", "154")]
+    [InlineData(typeof(Day24), "2", "47")]
     public async Task TestDay(Type type, string expectedSolution1 = "Not solved", string expectedSolution2 = "Not solved")
     {
         if (Activator.CreateInstance(type) is DayBase instance)
         {
+            instance.IsSample = true;
             instance.OverrideFileDirPath = "ExampleInputs";
 
             using (new AssertionScope())

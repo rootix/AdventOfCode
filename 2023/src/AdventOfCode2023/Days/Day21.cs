@@ -5,7 +5,7 @@ public class Day21 : DayBase
     public override ValueTask<string> Solve_1()
     {
         var garden = ParseInput();
-        var reachableGardenPlots = CalculateReachableGardenPlots(garden, 64);
+        var reachableGardenPlots = CalculateReachableGardenPlots(garden, IsSample ? 6 : 64);
         return new ValueTask<string>(reachableGardenPlots.ToString());
     }
 

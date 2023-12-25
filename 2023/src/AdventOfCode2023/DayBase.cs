@@ -7,6 +7,7 @@ public abstract class DayBase : BaseDay
         Input = new Lazy<string>(() => File.ReadAllText(InputFilePath));
     }
 
+    public bool IsSample { get; set; }
     public string? OverrideFileDirPath { get; set; }
     protected override string InputFileDirPath => OverrideFileDirPath ?? base.InputFileDirPath;
     protected Lazy<string> Input { get; private set; }
