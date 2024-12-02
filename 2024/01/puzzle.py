@@ -1,16 +1,19 @@
 from helpers import run
 
+
 def part1(data):
     left, right = parse_input(data)
     total_distance = sum(abs(l - r) for l, r in zip(left, right))
 
     return total_distance
 
+
 def part2(data):
     left, right = parse_input(data)
     similarity = sum(l * right.count(l) for l in left)
 
     return similarity
+
 
 def parse_input(data):
     left, right = [], []
@@ -25,6 +28,7 @@ def parse_input(data):
     right.sort()
 
     return left, right
+
 
 run(part1, "example.txt")
 run(part1, "input.txt")
