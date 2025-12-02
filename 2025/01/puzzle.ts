@@ -6,7 +6,7 @@ const turns = (rotations: string[]) => {
     let dial = 50;
 
     return rotations.map((rotation) => {
-        const value = parseInt(rotation.slice(1), 10);
+        const value = Number(rotation.slice(1));
         const newAbsDialValue = dial + (rotation[0] === 'L' ? -1 : 1) * value;
         const zeros = Math.floor(Math.abs(newAbsDialValue) / dialSteps) + (newAbsDialValue <= 0 && dial > 0 ? 1 : 0);
 
