@@ -84,6 +84,6 @@ const buildSortedPairs = (boxes: Box[]) => {
     allPairs.sort((p, q) => p.distance - q.distance);
 
     return allPairs;
-};
+}
 
 execute([part1, part2]);
