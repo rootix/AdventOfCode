@@ -6,11 +6,8 @@ export const isSampleInput = (): boolean => {
     return process.argv[2] === 'sample';
 };
 
-export const getInput = (fileName?: string): string => {
-    if (!fileName) {
-        fileName = isSampleInput() ? 'sample.txt' : 'input.txt';
-    }
-
+export const getInput = (part?: 1 | 2): string => {
+    const fileName = isSampleInput() ? `sample${part ?? ''}.txt` : 'input.txt';
     return readFileSync(fileName).toString();
 };
 
